@@ -1,0 +1,111 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass mixins.
+// -----------------------------------------------------------------------------
+
+/// Event wrapper
+/// @author Harry Roberts
+/// @param {Bool} $self [false] - Whether or not to include current selector
+/// @link https://twitter.com/csswizardry/status/478938530342006784 Original tweet from Harry Roberts
+@mixin on-event($self: false) {
+  @if $self {
+    &,
+    &:hover,
+    &:active,
+    &:focus,
+    &:focus-within {
+      @content;
+    }
+  } @else {
+    &:hover,
+    &:active,
+    &:focus,
+    &:focus-within {
+      @content;
+    }
+  }
+}
+
+/// Make a context based selector a little more friendly
+/// @author Kitty Giraudel
+/// @param {String} $context
+@mixin when-inside($context) {
+  #{$context} & {
+    @content;
+  }
+}
+
+/// Create variable in css base selected theme
+/// Inspired from @author Kevin Powell
+/// @link https://www.youtube.com/watch?v=EKHd0Dcc4IY
+@mixin color-theme($bg-color, $bg-muted, $bg-clear, $txt-title, $txt-base, $txt-muted, $box-shadow, $bg-footer){
+  --bg-color: #{$bg-color};
+  --bg-muted: #{$bg-muted};
+  --bg-clear: #{$bg-clear};
+  --txt-title: #{$txt-title};
+  --txt-base: #{$txt-base};
+  --txt-muted: #{$txt-muted};
+  --box-shadow: #{$box-shadow};
+  --bg-footer: #{$bg-footer};
+}
+
+// Mixin Breakpoint Screen Min
+// Mobile first rules (min-width)
+@mixin breakpoint-screen-min($size){
+  @media (min-width: map-get($breakpoints, $size)){
+    @content;
+  }
+}
+
+// Mixin Transition
+// https://www.w3schools.com/css/css3_transitions.asp
+@mixin transition($duration, $prop: 'all', $timing: 'ease-in-out'){
+  $vendors: 'transition', '-o-transition', '-moz-transition', '-webkit-transition';
+  @each $vendor in $vendors{
+    #{$vendor}: #{$prop} $duration #{$timing};
+  }
+}
+
+// Mixin Transform
+// https://www.w3schools.com/cssref/css3_pr_transform.asp
+@mixin transform($value) {
+  $vendors: 'transform', '-o-transform', '-moz-transform', '-webkit-transform';
+  @each $vendor in $vendors{
+    #{$vendor}: #{$value};
+  }
+}
+
+// Mixin Box Shadow
+// https://www.cssmatic.com/box-shadow
+@mixin box-shadow($horizontal, $vertical, $blur, $spread, $color){
+  $vendors: 'box-shadow', '-moz-box-shadow', '-webkit-box-shadow';
+  @each $vendor in $vendors{
+    #{$vendor}: #{$horizontal} #{$vertical} #{$blur} #{$spread} #{$color};
+  }
+}
+
+// Mixin Animate
+// https://developer.mozilla.org/en-US/docs/Web/CSS/CSS_Animations/Using_CSS_animations
+@mixin animate($name, $duration, $direction, $count){
+  $vendors: 'animation', '-o-animation', '-moz-animation', '-webkit-animation';
+  @each $vendor in $vendors{
+    #{$vendor}: #{$name} #{$duration} #{$direction} #{$count};
+  }
+}
+
+// Create linear gradient
+// https://developer.mozilla.org/en-US/docs/Web/CSS/gradient/linear-gradient
+@mixin linear-gradient($direction, $gradients){
+  $vendors: 'linear-gradient', '-moz-linear-gradient', '-webkit-linear-gradient';
+  @each $vendor in $vendors{
+    background: #{$vendor}(#{$direction}, #{$gradients});
+  }
+}
+
+// Create box sixing
+// https://developer.mozilla.org/en-US/docs/Web/CSS/box-sizing
+@mixin box-sizing($sizing){
+  $vendors: 'box-sizing', '-moz-box-sizing', '-webkit-box-sizing';
+  @each $vendor in $vendors{
+    #{$vendor}: #{$sizing};
+  }
+}

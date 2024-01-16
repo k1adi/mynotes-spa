@@ -1,0 +1,75 @@
+// -----------------------------------------------------------------------------
+// This file contains all application-wide Sass variables.
+// -----------------------------------------------------------------------------
+
+/// Regular font family
+/// @type List
+$font-family-base: 'Rubik', sans-serif !default;
+
+
+/// Font Size Base
+/// @type Size
+$font-size-base: 18px;
+$font-size-sm: 16px; 
+
+
+/// Primary & Secondary Color
+/// @type Color
+$primary: #185ADB !default;
+$secondary: #116530 !default;
+$success: #109155 !default;
+$warning: #FFC107 !default;
+$failed: #DC3545 !default;
+$grey: #6C757D !default;
+
+
+/// Light Theme List
+/// @type Color
+$bg-light: #f3f3f3 !default;
+$bg-light-clear: #FDFDFD !default;
+$bg-light-muted: #e2e2e2 !default;
+$txt-light: #EFF0F1 !default;
+$txt-light-muted: #9a9da0 !default;
+$box-shadow-light: rgba(128, 128, 128, 0.20) !default;
+
+/// Dark Theme List
+/// @type Color
+$bg-dark: #202124 !default;
+$bg-dark-clear: #181717 !default;
+$bg-dark-muted: #414141 !default;
+$txt-dark: $bg-dark !default;
+$txt-dark-muted: #94989b !default;
+$box-shadow-dark: rgba(61, 61, 61, .8) !default;
+
+/// Light & Dark Theme Array
+/// 1. background-color, 2. background-color-muted, 3. background-clear, 4. text-heading,
+/// 5. text-base, 6. text-muted, 7. Box-shadow, 8. background footer
+/// @type List
+$light-theme: $bg-light, $bg-light-muted, $bg-light-clear, $txt-dark, $txt-dark, $txt-light-muted, $box-shadow-light, $bg-dark;
+$dark-theme: $bg-dark, $bg-dark-muted, $bg-dark-clear, $primary, $txt-light, $txt-dark-muted, $box-shadow-dark, $bg-dark-clear;
+
+
+$placeholder-background: rgb(121, 121, 121) !default;
+$placeholder-animation: 'rgba(190, 190, 190' !default;
+
+
+/// Container's maximum width
+/// @type Length
+$max-width: 1440px !default;
+
+/// Container's relative width for small screen
+/// @type Length
+$relative-width: 92% !default;
+
+
+/// Breakpoints map
+/// @prop {String} keys - Keys are identifiers mapped to a given length
+/// @prop {Map} values - Values are actual breakpoints expressed in pixels
+$breakpoints: (
+  'xs': 440px,
+  'sm': 576px,
+  'md': 768px,
+  'lg': 992px,
+  'xl': 1200px,
+  'xxl': 1400px,
+) !default;

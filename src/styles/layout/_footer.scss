@@ -1,0 +1,13 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the footer of the site/application.
+// -----------------------------------------------------------------------------
+.footer {
+  &__emoji {
+    font-size: 2rem;
+    line-height: 0.5;
+  }
+
+  &__link {
+    color: $txt-light !important;
+  }
+}

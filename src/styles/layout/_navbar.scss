@@ -1,0 +1,48 @@
+// -----------------------------------------------------------------------------
+// This file contains all styles related to the navbar of the site/application.
+// -----------------------------------------------------------------------------
+
+.nav{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-flow: row wrap;
+
+  position: relative;
+  padding: 1rem 0;
+
+  width: 92%;
+  max-width: $max-width;
+  margin: 0 auto;
+
+  &__logo{
+    & > img{
+      width: auto;
+      height: 1.75rem;
+    }
+  }
+
+  &__theme{
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: .5rem;
+    background-color: transparent;
+
+    & > img {
+      width: auto;
+      height: 1.75rem;
+    }
+  }
+
+  @include breakpoint-screen-min('sm'){
+    padding: 1.5rem 0;
+    
+    &__logo{
+      & > img{
+        width: auto;
+        height: 2.5rem;          
+      }
+    }
+  }
+}

@@ -1,0 +1,26 @@
+%wrapper{
+  display: block;
+  position: relative;
+  height: auto;
+  padding: 1rem 0;
+}
+
+.wrapper{
+  &--add-note{
+    @extend %wrapper;
+    text-align: right;
+  }
+
+  &--search-note{
+    padding: 1.25rem;
+    border-radius: .5rem;
+    border: solid 2px var(--bg-muted);
+    background-color: var(--bg-clear);
+    @include transition(.25s);
+  }
+
+  &--tab-note{
+    display: block;
+    padding: 1rem 0;
+  }
+}

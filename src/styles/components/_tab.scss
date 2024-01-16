@@ -1,0 +1,27 @@
+.tab{
+  &__list{
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  &__link{
+    &:nth-child(1){
+      margin-right: .5rem;
+    }
+    
+    display: inline-block;
+    padding: .75rem 2.5rem;
+    border-radius: .5rem;
+    cursor: pointer;
+    border: solid 2px transparent;
+    background-color: var(--bg-muted);
+    @include transition(.25s);
+
+    &.active{
+      color: $txt-light;
+      background-color: $primary;
+      border: solid 2px $primary;
+    }
+  }
+}

@@ -1,0 +1,87 @@
+// -----------------------------------------------------------------------------
+// This file contains very basic styles.
+// -----------------------------------------------------------------------------
+
+/**
+ * Set up a decent box model on the root element
+ */
+ html {
+  font-size: $font-size-sm;
+  font-family: $font-family-base;
+  @include box-sizing('border-box');
+
+  @include breakpoint-screen-min('sm'){
+    font-size: $font-size-base;
+  }
+}
+
+/**
+ * Make all elements from the DOM inherit from the parent box-sizing
+ * Since `*` has a specificity of 0, it does not override the `html` value
+ * making all elements inheriting from the root box-sizing value
+ * See: https://css-tricks.com/inheriting-box-sizing-probably-slightly-better-best-practice/
+ */
+*,
+*::before,
+*::after {
+  @include box-sizing('inherit');
+}
+
+body{
+  padding: 0;
+  margin: 0;
+}
+
+.app{
+  &.light{
+    @include color-theme($light-theme...);
+  }
+
+  &.dark{
+    @include color-theme($dark-theme...);
+  }
+
+  display: flex;
+  flex-flow: column wrap;
+  min-height: 100vh;
+
+  color: var(--txt-base);
+  background-color: var(--bg-color);
+  @include transition(.25s);
+
+  &__header{
+    display: block;
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 5;
+    background-color: $primary;
+    @include box-shadow('0px', '5px', '15px', '0px', var(--box-shadow));
+  }
+
+  &__content{
+    padding-top: 80px;
+    flex: 1;
+    width: 100%;
+  }
+
+  &__footer{
+    display: block;
+    padding: 1.5rem 0;
+    color: $txt-light;
+    text-align: center;
+    background-color: var(--bg-footer);
+
+    & > p{
+      margin: 0 0 .5rem;
+      font-size: 1.15rem;
+    }
+  }
+
+  @include breakpoint-screen-min('sm'){
+    &__content{
+      padding-top: 107px;
+    }
+  }
+}

@@ -1,0 +1,22 @@
+.toastify{
+  max-width: 90% !important;
+  border-radius: .3rem !important;
+
+  &--success{
+    background: $success !important;
+  }
+
+  &--failed{
+    background: $failed !important;
+  }
+
+  &--muted{
+    background: $grey !important;
+  }
+}
+
+.toast{
+  &-close{
+    padding-left: 1rem !important;
+  }    
+}

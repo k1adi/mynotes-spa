@@ -1,0 +1,53 @@
+.button{
+  display: inline-block;
+  outline: none;
+  border: solid 2px transparent;
+  padding: .75rem 1.75rem;
+  font-family: inherit;
+  font-size: 1rem;
+  border-radius: .5rem;
+  cursor: pointer;
+
+  & > svg {
+    vertical-align: top;
+    margin-right: .3rem;
+  }
+
+  &--main{
+    background-color: $primary;
+    color: $txt-light;
+    @include transition(.15s);
+
+    @include on-event(false){
+      background-color: darken($primary, 5%);
+    }
+  }
+
+  &--edit,
+  &--delete{
+    font-weight: 500;
+    width: 100%;
+    border-radius: 0;
+  }
+
+  &--edit{
+    color: $txt-dark;
+    background-color: $warning;
+    border-radius: 0 0 0 .3rem;
+  }
+
+  &--delete{
+    color: $txt-light;
+    background-color: $failed;
+    border-radius: 0 0 .3rem 0;
+
+  }
+
+  &--outline{
+    &-main {
+      background-color: transparent;
+      color: $primary;
+      border: solid 2px $primary;
+    }
+  }
+}
