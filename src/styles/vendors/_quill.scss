@@ -1,0 +1,17 @@
+.ql-toolbar .ql-stroke {
+  fill: none;
+  stroke: var(--txt-base);
+}
+
+.ql-toolbar .ql-fill {
+  fill: var(--txt-base);
+  stroke: none;
+}
+
+.ql-toolbar .ql-picker {
+  color: var(--txt-base);
+}
+
+.ql-editor{
+  font-family: $font-family-base !important;
+}
