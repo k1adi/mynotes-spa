@@ -4,8 +4,7 @@
 
 /// Regular font family
 /// @type List
-$font-family-base: 'Rubik', sans-serif !default;
-
+$font-family-base: "Montserrat", system-ui, -apple-system, "Helvetica Neue", "Noto Sans", "Liberation Sans", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol", "Noto Color Emoji" !default;
 
 /// Font Size Base
 /// @type Size
@@ -52,6 +51,10 @@ $dark-theme: $bg-dark, $bg-dark-muted, $bg-dark-clear, $primary, $txt-light, $tx
 $placeholder-background: rgb(121, 121, 121) !default;
 $placeholder-animation: 'rgba(190, 190, 190' !default;
 
+
+/// Note's maximum width
+/// @type Length
+$note-width: 800px !default;
 
 /// Container's maximum width
 /// @type Length

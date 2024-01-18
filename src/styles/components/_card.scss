@@ -41,6 +41,13 @@
     grid-column: 1/5;
   }
 
+  &-detail{
+    padding: 1.5rem;
+    border-radius: .5rem;
+    background-color: var(--bg-clear);
+    @include box-shadow('0px', '3px', '.5rem', '0px', var(--box-shadow));
+  }
+
   @include breakpoint-screen-min('sm'){
     &__wrapper{
       grid-template-columns: repeat(2,1fr);

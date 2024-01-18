@@ -1,3 +1,17 @@
 .icon{
   font-size: 1.25rem;
+
+  &-text{
+    color: $primary;
+    font-size: .9rem;
+    margin-top: 2rem;
+    color: var(--txt-muted);
+  }
+
+  &-share{
+    color: var(--txt-muted);
+    font-size: 1.85rem;
+    text-decoration: none;
+    margin-right: 1.25rem;
+  }
 }
