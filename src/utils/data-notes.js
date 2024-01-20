@@ -60,16 +60,6 @@ let initialNotes = [
     updatedAt: '',
     archived: false,
   },
-  {
-    id: 1705470126716,
-    label: 4,
-    title: 'Functional Component ,./;["]=-!@#$%^&*()',
-    body: '<h1>asdasdad</h1><p><br></p><p>asda;ld</p><p><em>asdad as</em></p><p>d asd</p><p>ad </p><p><strong>asd</strong></p><p> as</p><p> da</p><p>d a</p><p>sd</p><ol><li>a das</li><li>asda</li><li>sdad</li><li>a</li></ol><ul><li>asd</li><li>ada</li><li>das</li><li>das</li><li>dad</li></ul><p><br></p><p>adasd</p><p> a</p>',
-    plainBody: 'Functional component merupakan React component yang dibuat menggunakan fungsi JavaScript. Agar fungsi JavaScript dapat disebut component ia harus mengembalikan React element dan dipanggil layaknya React component.',
-    createdAt: '2022-04-14T04:27:34.572Z',
-    updatedAt: '',
-    archived: false,
-  },
 ];
 
 const FindNote = (notes, id) => {
