@@ -40,6 +40,14 @@ $txt-dark: $bg-dark !default;
 $txt-dark-muted: #94989b !default;
 $box-shadow-dark: rgba(61, 61, 61, .8) !default;
 
+/// Icon Color map
+/// @prop {String} keys - Keys are identifiers mapped to a given name
+/// @prop {Map} values - Values are actual color from icon
+$icons-color: (
+  'whatsapp': #25D366,
+  'facebook': #4267B2,
+) !default;
+
 /// Light & Dark Theme Array
 /// 1. background-color, 2. background-color-muted, 3. background-clear, 4. text-heading,
 /// 5. text-base, 6. text-muted, 7. Box-shadow, 8. background footer

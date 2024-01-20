@@ -18,9 +18,4 @@
     background-color: var(--bg-clear);
     @include transition(.25s);
   }
-
-  &--tab-note{
-    display: block;
-    padding: 1rem 0;
-  }
 }
