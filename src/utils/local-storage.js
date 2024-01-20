@@ -1,5 +1,5 @@
 import CONFIG from './config';
-import { getInitialData } from './data-notes';
+import { initialNotes } from './data-notes';
 
 const isWebStorageAvailable = () => {
   if (typeof (Storage) === 'undefined') {
@@ -9,19 +9,19 @@ const isWebStorageAvailable = () => {
   return true;
 };
 
-const saveNotes = (notes) => {
+const SaveNotes = (notes) => {
   localStorage.setItem(CONFIG.STORAGE_NOTES, JSON.stringify(notes));
 };
 
 // Check local storage first, and save initial data 
 const checkNote = () => {
   if (localStorage.getItem(CONFIG.STORAGE_NOTES) === 'undefined' || localStorage.getItem(CONFIG.STORAGE_NOTES) === null) {
-    saveNotes(getInitialData());
+    SaveNotes(initialNotes);
   }
 };
 
-const getNotes = () => {
-  let localData = getInitialData();
+const GetNotes = () => {
+  let localData = initialNotes;
 
   if (isWebStorageAvailable()) {
     checkNote();
@@ -32,15 +32,15 @@ const getNotes = () => {
   return localData;
 };
 
-const saveTheme = (theme) => {
+const SaveTheme = (theme) => {
   if (isWebStorageAvailable()) {
     localStorage.setItem(CONFIG.STORAGE_THEME, theme);
   }
 };
 
-const getTheme = () => {
+const GetTheme = () => {
   if (localStorage.getItem(CONFIG.STORAGE_THEME) === null) {
-    saveTheme('light');
+    SaveTheme('light');
 
     return localStorage.getItem(CONFIG.STORAGE_THEME);
   }
@@ -48,4 +48,4 @@ const getTheme = () => {
   return 'light';
 };
 
-export { saveNotes, getNotes, saveTheme, getTheme };
+export { SaveNotes, GetNotes, SaveTheme, GetTheme };

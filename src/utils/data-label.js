@@ -1,4 +1,4 @@
-const getInitialLabel = () => ([
+const GetInitialLabel = () => ([
   {
     id: 1,
     name: 'HTML',
@@ -26,14 +26,14 @@ const getInitialLabel = () => ([
   },
 ]);
 
-const getLabelName = (data, id) => {
+const GetLabelName = (data, id) => {
   const foundLabel = data.find(label => label.id == id);
   return foundLabel ? foundLabel.name : '';
 };
 
-const getLabelHexCode = (data, id) => {
+const GetLabelHexCode = (data, id) => {
   const foundLabel = data.find(label => label.id == id);
   return foundLabel ? foundLabel.hexcode : '';
 };
 
-export { getInitialLabel, getLabelName, getLabelHexCode };
+export { GetInitialLabel, GetLabelName, GetLabelHexCode };
