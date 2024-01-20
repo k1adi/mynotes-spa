@@ -3,13 +3,14 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useSearchParams } from 'react-router-dom';
 
-import SearchBar from '../components/SearchBar';
-import NoteWrapper from '../components/NoteWrapper';
-import ButtonAddNote from '../components/ButtonAddNote';
+import SearchBar from '../components/note/SearchBar';
+import NoteWrapper from '../components/note/NoteWrapper';
+import ButtonAddNote from '../components/note/ButtonAddNote';
 
-import { searchNote } from '../utils/data-notes';
+import { FindNote, noteObject, SearchNote } from '../utils/data-notes';
 
 import { FaPencil } from 'react-icons/fa6';
+import NoteModal from '../components/note/NoteModal';
 
 function NotePageWrapper (props) {
   const [searchParams, setSearchParams] = useSearchParams();
@@ -20,7 +21,18 @@ function NotePageWrapper (props) {
     setSearchParams({keyword, label});
   }
 
-  return <NotePage notes={props.notes} currentKeyword={keyword} currentLabel={label} paramsChange={changeSearchParams} />;
+  return (
+    <NotePage 
+      notes={props.notes}
+      currentLabel={label}
+      currentKeyword={keyword}
+      onLoading={props.onLoading}
+      paramsChange={changeSearchParams}
+      saveNoteHandler={props.onSaveNote}
+      editNoteHandler={props.onEditNote}
+      deleteNoteHandler={props.onDeleteNote}
+    />
+  );
 }
 
 class NotePage extends React.Component {
@@ -28,12 +40,16 @@ class NotePage extends React.Component {
     super(props);
 
     this.state = {
-      notes: this.props.notes,
-      keyword: props.currentKeyword || '',
+      selectedNote: noteObject,
+      modalAddIsVisible: false,
+      modalEditIsVisible: false,
       label: props.currentLabel || '',
+      keyword: props.currentKeyword || '',
     };
 
     this.onSearchParamsHandler = this.onSearchParamsHandler.bind(this);
+    this.onToggleModalAddHanlder = this.onToggleModalAddHanlder.bind(this);
+    this.onToggleModalEditHanlder = this.onToggleModalEditHanlder.bind(this);
   }
 
   onSearchParamsHandler({title, label}) {
@@ -42,12 +58,48 @@ class NotePage extends React.Component {
     });
   }
 
+  onToggleModalAddHanlder() {
+    this.setState((prevState) => ({
+      modalAddIsVisible: !prevState.modalAddIsVisible,
+      selectedNote: noteObject,
+    }));
+  }
+
+  onToggleModalEditHanlder(id) {
+    this.setState((prevState) => ({
+      modalEditIsVisible: !prevState.modalEditIsVisible,
+      selectedNote: FindNote(this.props.notes, id),
+    }));
+  }
+
   render() {
-    const notes = this.state.notes.filter(note => !note.archived);
-    const filteredNotes = searchNote(notes, this.state.keyword, this.state.label);
+    const notes = this.props.notes.filter(note => !note.archived);
+    const filteredNotes = SearchNote(notes, this.state.keyword, this.state.label);
 
     return (
       <div className='container--wrap container--padding-y'>
+        {this.state.modalAddIsVisible && (
+          <NoteModal
+            formName='Add'
+            note={this.state.selectedNote}
+            onLoading={this.props.onLoading}
+            onHideModal={this.onToggleModalAddHanlder}
+            isModalVisible={this.state.modalAddIsVisible}
+            formSubmitHandler={this.props.saveNoteHandler}
+          />
+        )}
+
+        {this.state.modalEditIsVisible && (
+          <NoteModal
+            formName='Edit'
+            note={this.state.selectedNote}
+            onLoading={this.props.onLoading}
+            onHideModal={this.onToggleModalEditHanlder}
+            isModalVisible={this.state.modalEditIsVisible}
+            formSubmitHandler={this.props.editNoteHandler}
+          />
+        )}
+
         <div className='wrapper--search-note'>
           <SearchBar 
             keyword={this.state.keyword}
@@ -61,12 +113,16 @@ class NotePage extends React.Component {
             classList='button button--main button--large'
             btnIcon={<FaPencil className='icon'/>}
             btnText='Create New Note'
+            onShowModalHandler={this.onToggleModalAddHanlder}
           />
         </div>
 
         <NoteWrapper 
-          notes={filteredNotes}
           pageName='Note'
+          notes={filteredNotes}
+          onLoading={this.props.onLoading}
+          onShowModalHandler={this.onToggleModalEditHanlder}
+          onDeleteHandler={this.props.deleteNoteHandler}
         />
       </div>
     );
@@ -74,36 +130,22 @@ class NotePage extends React.Component {
 }
 
 NotePageWrapper.propTypes = {
-  notes: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      label: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      richText: PropTypes.string.isRequired,
-      plainText: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      updatedAt: PropTypes.string,
-      archived: PropTypes.bool.isRequired,
-    })
-  ).isRequired,
+  notes: PropTypes.array.isRequired,
+  onLoading: PropTypes.func.isRequired,
+  onSaveNote: PropTypes.func.isRequired,
+  onEditNote: PropTypes.func.isRequired,
+  onDeleteNote: PropTypes.func.isRequired,
 };
 
 NotePage.propTypes =  {
-  notes: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      label: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      richText: PropTypes.string.isRequired,
-      plainText: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      updatedAt: PropTypes.string,
-      archived: PropTypes.bool.isRequired,
-    })
-  ).isRequired,
-  currentKeyword: PropTypes.string,
   currentLabel: PropTypes.string,
+  currentKeyword: PropTypes.string,
+  notes: PropTypes.array.isRequired,
+  onLoading: PropTypes.func.isRequired,
   paramsChange: PropTypes.func.isRequired,
+  saveNoteHandler: PropTypes.func.isRequired,
+  editNoteHandler: PropTypes.func.isRequired,
+  deleteNoteHandler: PropTypes.func.isRequired,
 };
 
 export default NotePageWrapper;
