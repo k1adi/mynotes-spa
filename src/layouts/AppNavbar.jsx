@@ -8,7 +8,7 @@ import NotesLogo from '../assets/mynotes-logo.png';
 function AppNavbar({ onToggleTheme, iconTheme}) {
   const location = useLocation();
   const links = [
-    { to: '/note', label: 'Note' },
+    { to: '/', label: 'Note' },
     { to: '/archive', label: 'Archive' },
   ];
 
