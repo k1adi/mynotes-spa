@@ -43,9 +43,30 @@
 
   &-detail{
     padding: 1.5rem;
+    position: relative;
     border-radius: .5rem;
     background-color: var(--bg-clear);
     @include box-shadow('0px', '3px', '.5rem', '0px', var(--box-shadow));
+
+    &__float-label{
+      cursor:pointer;
+      position: absolute;
+      top: 1rem;
+      right: 1.25rem;
+      padding: .5rem .75rem;
+      font-weight: 600;
+      font-size: .85rem;
+      border-radius: .3rem;
+      color: $txt-light;
+
+      &.active {
+        background-color: rgba($color: $success, $alpha: .7);
+      }
+
+      &.archive {
+        background-color: rgba($color: $grey, $alpha: .7);
+      }
+    }
   }
 
   @include breakpoint-screen-min('sm'){
