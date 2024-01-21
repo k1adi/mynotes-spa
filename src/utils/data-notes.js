@@ -1,72 +1,87 @@
-import { GetNotes, SaveNotes } from './local-storage';
-
 const noteObject = {
   id: '',
   label: 1,
   title: '',
   body: '',
-  plainBody: '',
   archived: '',
 };
 
-let initialNotes = [
+let notes = [
   {
-    id: 1705470126711,
-    label: 1,
-    title: 'Apa Itu HTML',
-    body: 'HTML (Hypertext Markup Language) adalah fondasi dari setiap halaman web. Artikel ini memberikan pengantar singkat untuk pemula, membahas struktur dasar HTML, elemen umum, dan cara memulai membuat halaman web sederhana.',
-    plainBody: 'HTML (Hypertext Markup Language) adalah fondasi dari setiap halaman web. Artikel ini memberikan pengantar singkat untuk pemula, membahas struktur dasar HTML, elemen umum, dan cara memulai membuat halaman web sederhana.',
-    createdAt: '2023-11-11T04:27:34.572Z',
-    updatedAt: '2023-11-11T04:27:34.572Z',
-    archived: true,
-  },
-  {
-    id: 1705470126712,
-    label: 2,
-    title: 'Membuat Tampilan Menarik',
-    body: 'CSS (Cascading Style Sheets) memungkinkan desain web yang menarik. Dalam catatan ini, kita akan membahas dasar-dasar CSS, termasuk selektor, properti gaya, dan cara menerapkannya untuk meningkatkan estetika halaman web.',
-    plainBody: 'CSS (Cascading Style Sheets) memungkinkan desain web yang menarik. Dalam catatan ini, kita akan membahas dasar-dasar CSS, termasuk selektor, properti gaya, dan cara menerapkannya untuk meningkatkan estetika halaman web.',
-    createdAt: '2023-11-12T04:27:34.572Z',
-    updatedAt: '',
-    archived: false,
-  },
-  {
-    id: 1705470126713,
+    id: 'notes-1',
     label: 3,
-    title: 'Modularization',
-    body: 'Dalam konteks pemrograman JavaScript, modularization merupakan teknik dalam memecah atau menggunakan kode dalam berkas JavaScript secara terpisah berdasarkan tanggung jawabnya masing-masing.',
-    plainBody: 'Dalam konteks pemrograman JavaScript, modularization merupakan teknik dalam memecah atau menggunakan kode dalam berkas JavaScript secara terpisah berdasarkan tanggung jawabnya masing-masing.',
+    title: 'Babel',
+    body: 'Babel merupakan tools open-source yang digunakan untuk mengubah sintaks ECMAScript 2015+ menjadi sintaks yang didukung oleh JavaScript engine versi lama. Babel sering dipakai ketika kita menggunakan sintaks terbaru termasuk sintaks JSX.',
     createdAt: '2022-04-14T04:27:34.572Z',
     updatedAt: '',
     archived: false,
   },
   {
-    id: 1705470126714,
-    label: 5,
-    title: 'Module Bundler',
-    body: 'Dalam konteks pemrograman JavaScript, module bundler merupakan tools yang digunakan untuk menggabungkan seluruh modul JavaScript yang digunakan oleh aplikasi menjadi satu berkas.',
-    plainBody: 'Dalam konteks pemrograman JavaScript, module bundler merupakan tools yang digunakan untuk menggabungkan seluruh modul JavaScript yang digunakan oleh aplikasi menjadi satu berkas.',
-    createdAt: '2022-04-14T04:27:34.572Z',
-    updatedAt: '',
-    archived: false,
-  },
-  {
-    id: 1705470126715,
+    id: 'notes-2',
     label: 4,
     title: 'Functional Component',
     body: 'Functional component merupakan React component yang dibuat menggunakan fungsi JavaScript. Agar fungsi JavaScript dapat disebut component ia harus mengembalikan React element dan dipanggil layaknya React component.',
-    plainBody: 'Functional component merupakan React component yang dibuat menggunakan fungsi JavaScript. Agar fungsi JavaScript dapat disebut component ia harus mengembalikan React element dan dipanggil layaknya React component.',
     createdAt: '2022-04-14T04:27:34.572Z',
     updatedAt: '',
     archived: false,
   },
+  {
+    id: 'notes-3',
+    label: 3,
+    title: 'Modularization',
+    body: 'Dalam konteks pemrograman JavaScript, modularization merupakan teknik dalam memecah atau menggunakan kode dalam berkas JavaScript secara terpisah berdasarkan tanggung jawabnya masing-masing.',
+    createdAt: '2022-04-14T04:27:34.572Z',
+    updatedAt: '',
+    archived: false,
+  },
+  {
+    id: 'notes-4',
+    label: 4,
+    title: 'Lifecycle',
+    body: 'Dalam konteks React component, lifecycle merupakan kumpulan method yang menjadi siklus hidup mulai dari component dibuat (constructor), dicetak (render), pasca-cetak (componentDidMount), dan sebagainya. ',
+    createdAt: '2022-04-14T04:27:34.572Z',
+    updatedAt: '',
+    archived: false,
+  },
+  {
+    id: 'notes-5',
+    label: 3,
+    title: 'ESM',
+    body: 'ESM (ECMAScript Module) merupakan format modularisasi standar JavaScript.',
+    createdAt: '2022-04-14T04:27:34.572Z',
+    updatedAt: '',
+    archived: false,
+  },
+  {
+    id: 'notes-6',
+    label: 5,
+    title: 'Module Bundler',
+    body: 'Dalam konteks pemrograman JavaScript, module bundler merupakan tools yang digunakan untuk menggabungkan seluruh modul JavaScript yang digunakan oleh aplikasi menjadi satu berkas.',
+    createdAt: '2022-04-14T04:27:34.572Z',
+    archived: false,
+  }
 ];
 
-const FindNote = (notes, id) => {
-  return notes.find(note => note.id == id);
+const getAllNote = () => {
+  return notes;
 };
 
-const SearchNote = (notes, keyword, label) => {
+const findNote = (id) => {
+  const foundedNote = notes.find((note) => note.id === id);
+  return foundedNote;
+};
+
+function getActiveNotes() {
+  const activeNotes = notes.filter((note) => !note.archived);
+  return activeNotes;
+}
+
+function getArchivedNotes() {
+  const archivedNotes = notes.filter((note) => note.archived);
+  return archivedNotes;
+}
+
+const searchNote = (notes, keyword, label) => {
   let filteredNote = notes;
 
   if (keyword.length && keyword.trim()) {
@@ -80,47 +95,45 @@ const SearchNote = (notes, keyword, label) => {
   return filteredNote;
 };
 
-const AddNote = ({ label, title, body, plainBody }) => {
-  let notes = GetNotes();
+const addNote = ({ label, title, body }) => {
   notes = [...notes, { 
-    id: +new Date(),
+    id: String(+new Date()),
     label: Number(label),
     title,
     body,
-    plainBody,
     archived: false, 
     createdAt: new Date().toISOString(), 
     updatedAt: '' 
   }];
-
-  SaveNotes(notes);
+};
+const toggleArchiveNote = (id) => {
+  notes = notes.map((note) => {
+    if (note.id === id) {
+      return { ...note, archived: !note.archived };
+    }
+    return note;
+  });
 };
 
-const EditNotes = ({ id, label, title, body, plainBody, archived, currentNote }) => {
-  let notes = GetNotes();
+const editNotes = ({ id, label, title, body, archived, currentNote }) => {
   const updatedNote = {
     ...currentNote,
-    id: Number(id),
+    id: id,
     label: Number(label),
     title,
     body, 
-    plainBody,
     archived,
     updatedAt: new Date().toISOString()
   };
+
   notes = [...notes.filter(note => note.id !== id), updatedNote];
-
-  SaveNotes(notes);
 };
 
-const DeleteNote = (id) => {
-  let notes = GetNotes();
+const deleteNote = (id) => {
   notes = notes.filter(note => note.id !== id);
-
-  SaveNotes(notes);
 };
 
-const ShowFormattedDate = (date) => {
+const showFormattedDate = (date) => {
   const options = {
     weekday: 'long',
     year: 'numeric',
@@ -131,7 +144,7 @@ const ShowFormattedDate = (date) => {
   return new Date(date).toLocaleDateString('en-US', options);
 };
 
-function ConvertTitle(string) {
+function convertTitle(string) {
   // eslint-disable-next-line no-useless-escape
   string = string.replace(/[.,;<>\/?\\|[\]{}"`'!@#$%^&*()_+=~]/g, ' ');
   string = string.replace(/\s+/g, '+');
@@ -139,4 +152,18 @@ function ConvertTitle(string) {
   return string;
 }
 
-export { noteObject, initialNotes, FindNote, SearchNote, AddNote, EditNotes, DeleteNote, ShowFormattedDate, ConvertTitle };
+export { 
+  noteObject, 
+  notes, 
+  getAllNote,
+  getActiveNotes,
+  getArchivedNotes,
+  findNote, 
+  searchNote, 
+  addNote, 
+  toggleArchiveNote,
+  editNotes, 
+  deleteNote, 
+  showFormattedDate, 
+  convertTitle 
+};
