@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { useParams, useNavigate } from 'react-router-dom';
 
 import CONFIG from '../utils/config';
-import { ConvertTitle, FindNote, ShowFormattedDate } from '../utils/data-notes';
+import { convertTitle, showFormattedDate, findNote } from '../utils/data-notes';
 import { GetInitialLabel, GetLabelHexCode, GetLabelName } from '../utils/data-label';
 
 import { FaCopy } from 'react-icons/fa6';
@@ -12,7 +12,7 @@ import { FaAngleLeft } from 'react-icons/fa6';
 import { FaSquareFacebook } from 'react-icons/fa6';
 import { FaSquareXTwitter } from 'react-icons/fa6';
 import { FaSquareWhatsapp } from 'react-icons/fa6';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 import 'react-toastify/dist/ReactToastify.min.css';
 
@@ -26,17 +26,19 @@ function DetailPage(props) {
   const [urlTitle, setUrlTitle] = useState();
 
   useEffect(() => {
-    const selectedNote = FindNote(props.notes, id);
-    setNote(selectedNote);
+    const selectedNote = findNote(id);
 
     if (!selectedNote) {
       navigate('/not-found');
-    } else {
-      setHexCode(GetLabelHexCode(labels, selectedNote.label));
-      setLabelName(GetLabelName(labels, selectedNote.label));
-      setUrlTitle(ConvertTitle(selectedNote.title));
+      return;
     }
-  }, [id, navigate, labels, props.notes]);
+
+    setNote(selectedNote);
+    setHexCode(GetLabelHexCode(labels, selectedNote.label));
+    setLabelName(GetLabelName(labels, selectedNote.label));
+    setUrlTitle(convertTitle(selectedNote.title));
+  }, [id, navigate, labels]);
+
 
   const labelColor = { color: hexCode };
   const borderTop = { borderTop: `solid 3px ${hexCode}` };
@@ -59,6 +61,10 @@ function DetailPage(props) {
       });
   };
 
+  const handleLabel = () => {
+    props.changeStatus(id);
+  };
+
   const currentUrl = window.location.href;
   const shareLinks = [
     { name: 'whatsapp', icon: <FaSquareWhatsapp />, url: `https://api.whatsapp.com/send?text=${urlTitle}%0A${currentUrl}` },
@@ -71,12 +77,22 @@ function DetailPage(props) {
       <div className='container--note container--padding-y'>
         {note && (
           <div className='card-detail' style={borderTop}>
+            {note.archived ? (
+              <span className='card-detail__float-label archive' onClick={handleLabel}>
+                archive
+              </span>
+            ) : (
+              <span className='card-detail__float-label active' onClick={handleLabel}>
+                active                
+              </span>
+            )}
+
             <small className='text__label' style={labelColor}> { labelName } </small>
             <h3 className='text__heading'> {note.title} </h3>
-            <p className='text__date'> { ShowFormattedDate(note.createdAt) } </p>
+            <p className='text__date'> { showFormattedDate(note.createdAt) } </p>
             <div className='text__desc' dangerouslySetInnerHTML={{ __html: note.body }} />
             { note.updatedAt && (
-              <p className='text__date text__italic'>Last Modified: { ShowFormattedDate(note.updatedAt) }</p>
+              <p className='text__date text__italic'>Last Modified: { showFormattedDate(note.updatedAt) }</p>
             )}
 
             <p className='icon-text'>Share this note</p>
@@ -104,8 +120,6 @@ function DetailPage(props) {
                 <FaAngleLeft /> Back
               </button>
             </div>
-
-            <ToastContainer />
           </div>
         )}
       </div>
@@ -114,18 +128,7 @@ function DetailPage(props) {
 }
 
 DetailPage.propTypes = {
-  notes: PropTypes.arrayOf(
-    PropTypes.shape({
-      id: PropTypes.number.isRequired,
-      label: PropTypes.number.isRequired,
-      title: PropTypes.string.isRequired,
-      body: PropTypes.string.isRequired,
-      plainBody: PropTypes.string.isRequired,
-      createdAt: PropTypes.string.isRequired,
-      updatedAt: PropTypes.string,
-      archived: PropTypes.bool.isRequired,
-    })
-  ).isRequired,
+  changeStatus: PropTypes.func.isRequired,
 };
 
 export default DetailPage;

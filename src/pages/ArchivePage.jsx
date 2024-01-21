@@ -6,7 +6,7 @@ import { useSearchParams } from 'react-router-dom';
 import SearchBar from '../components/note/SearchBar';
 import NoteWrapper from '../components/note/NoteWrapper';
 
-import { FindNote, SearchNote, noteObject } from '../utils/data-notes';
+import { findNote, searchNote, noteObject, getArchivedNotes } from '../utils/data-notes';
 import NoteModal from '../components/note/NoteModal';
 
 function ArchivePageWrapper (props) {
@@ -55,13 +55,13 @@ class ArchivePage extends React.Component {
   onToggleModalEditHanlder(id) {
     this.setState((prevState) => ({
       modalEditIsVisible: !prevState.modalEditIsVisible,
-      selectedNote: FindNote(this.props.notes, id),
+      selectedNote: findNote(id),
     }));
   }
 
   render() {
-    const notes = this.props.notes.filter(note => note.archived);
-    const filteredNotes = SearchNote(notes, this.state.keyword, this.state.label);
+    const notes = getArchivedNotes();
+    const filteredNotes = searchNote(notes, this.state.keyword, this.state.label);
 
     return (
       <div className='container--wrap container--padding-y'>

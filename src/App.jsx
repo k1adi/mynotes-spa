@@ -13,8 +13,8 @@ import DetailPage from './pages/DetailPage';
 import NotePageWrapper from './pages/NotePage';
 import LoaderScreen from './components/ui/LoaderScreen';
 
-import { GetNotes, GetTheme, SaveTheme } from './utils/local-storage';
-import { AddNote, DeleteNote, EditNotes } from './utils/data-notes';
+import { getTheme, saveTheme } from './utils/local-storage';
+import { addNote, deleteNote, editNotes, getAllNote, toggleArchiveNote } from './utils/data-notes';
 
 import { ToastContainer, toast } from 'react-toastify';
 import CONFIG from './utils/config';
@@ -23,13 +23,13 @@ class App extends React.Component {
   constructor(props) {    
     super(props);
 
-    const currentIcon = GetTheme() === 'light' ? SunIcon : MoonIcon;
+    const currentIcon = getTheme() === 'light' ? SunIcon : MoonIcon;
 
     this.state = {
-      notes: GetNotes(),
+      notes: getAllNote(),
       isLoadingTime: false,
       iconTheme: currentIcon,
-      currentTheme: GetTheme(),
+      currentTheme: getTheme(),
     };
 
     this.onToggleThemeHandler = this.onToggleThemeHandler.bind(this);
@@ -38,6 +38,7 @@ class App extends React.Component {
     this.onSaveNoteHandler = this.onSaveNoteHandler.bind(this);
     this.onEditNoteHandler = this.onEditNoteHandler.bind(this);
     this.onDeleteNoteHandler = this.onDeleteNoteHandler.bind(this);
+    this.onToggleArchiveHandler = this.onToggleArchiveHandler.bind(this);
   }
 
   onToggleThemeHandler() {
@@ -45,7 +46,7 @@ class App extends React.Component {
       currentTheme: prevState.currentTheme === 'light' ? 'dark' : 'light',
       iconTheme: prevState.iconTheme === SunIcon ? MoonIcon : SunIcon,
     }), () => {
-      SaveTheme(this.state.currentTheme);
+      saveTheme(this.state.currentTheme);
     });
   }
 
@@ -56,29 +57,38 @@ class App extends React.Component {
   }
 
   onSaveNoteHandler(note) {
-    AddNote(note);
     toast.success('Successfuly created a new note', CONFIG.TOAST_EMITTER);
+    addNote(note);
 
     this.setState(() => {
-      return { notes: GetNotes() };
+      return { notes: getAllNote() };
+    });
+  }
+
+  onToggleArchiveHandler(id) {
+    toast.success('Successfuly updated status note', CONFIG.TOAST_EMITTER);
+    toggleArchiveNote(id);
+
+    this.setState(() => {
+      return { notes: getAllNote() };
     });
   }
 
   onEditNoteHandler(note) {
-    EditNotes(note);
     toast.success('Successfuly updated the note', CONFIG.TOAST_EMITTER);
+    editNotes(note);
 
     this.setState(() => {
-      return { notes: GetNotes() };
+      return { notes: getAllNote() };
     });
   }
 
   onDeleteNoteHandler(id) {
-    DeleteNote(id);
     toast.success('Successfuly deleted the note', CONFIG.TOAST_EMITTER);
+    deleteNote(id);
 
     this.setState(() => {
-      return { notes: GetNotes() };
+      return { notes: getAllNote() };
     });
   }
 
@@ -118,8 +128,11 @@ class App extends React.Component {
             }/>
 
             <Route path="/note/:id" element={
-              <DetailPage notes={this.state.notes}/>
-            } />
+              <DetailPage 
+                notes={this.state.notes}
+                changeStatus={this.onToggleArchiveHandler}
+              />
+            }/>
 
             <Route path="/not-found" element={<NotFoundPage />} />
             <Route path="*" element={<Navigate to="/not-found" />} />

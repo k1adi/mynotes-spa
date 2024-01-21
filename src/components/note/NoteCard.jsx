@@ -3,7 +3,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { useNavigate } from 'react-router-dom';
 
-import { ShowFormattedDate } from '../../utils/data-notes';
+import { showFormattedDate } from '../../utils/data-notes';
 import { GetInitialLabel, GetLabelName, GetLabelHexCode } from '../../utils/data-label';
 
 import { FaPenToSquare } from 'react-icons/fa6';
@@ -42,17 +42,18 @@ function NoteCard ({ note, onLoading, onEdit, onDelete }) {
         }, 1000);
       }
     });
-   
   };
+
+  const description = note.body.replace(/<[^>]*>/g, '');
 
   return (
     <div className='card__note'>
       <div className='card__note__body' onClick={handleClick}>
         <small style={cardStyle}> { labelName } </small>
         <h3 className='text__title'> { note.title } </h3>
-        <p className='text__date'> { ShowFormattedDate(note.createdAt) } </p>
-        <p className='text__desc'> { note.plainBody.length > 150 ? 
-          `${note.plainBody.substring(0, 150)}...` : note.plainBody
+        <p className='text__date'> { showFormattedDate(note.createdAt) } </p>
+        <p className='text__desc'> { description.length > 150 ? 
+          `${description.substring(0, 150)}...` : description
         } 
         </p>
       </div>

@@ -7,7 +7,7 @@ import SearchBar from '../components/note/SearchBar';
 import NoteWrapper from '../components/note/NoteWrapper';
 import ButtonAddNote from '../components/note/ButtonAddNote';
 
-import { FindNote, noteObject, SearchNote } from '../utils/data-notes';
+import { findNote, noteObject, searchNote } from '../utils/data-notes';
 
 import { FaPencil } from 'react-icons/fa6';
 import NoteModal from '../components/note/NoteModal';
@@ -68,13 +68,13 @@ class NotePage extends React.Component {
   onToggleModalEditHanlder(id) {
     this.setState((prevState) => ({
       modalEditIsVisible: !prevState.modalEditIsVisible,
-      selectedNote: FindNote(this.props.notes, id),
+      selectedNote: findNote(id),
     }));
   }
 
   render() {
     const notes = this.props.notes.filter(note => !note.archived);
-    const filteredNotes = SearchNote(notes, this.state.keyword, this.state.label);
+    const filteredNotes = searchNote(notes, this.state.keyword, this.state.label);
 
     return (
       <div className='container--wrap container--padding-y'>
